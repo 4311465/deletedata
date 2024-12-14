@@ -108,33 +108,7 @@ namespace deletedata
                 return;
             }
 
-            //using (SqlConnection connection = new SqlConnection(connectionString))
-            //{
-            //    string query = "DELETE FROM Pub_SysMenu WHERE MenuName = @Condition"; // 替换为你的表名和条件列
-            //    using (SqlCommand command = new SqlCommand(query, connection))
-            //    {
-            //        command.Parameters.AddWithValue("@Condition", condition);
-
-            //        try
-            //        {
-            //            connection.Open();
-            //            int rowsAffected = command.ExecuteNonQuery();
-
-            //            if (rowsAffected > 0)
-            //            {
-            //                labelResult.Text = "删除成功！";
-            //            }
-            //            else
-            //            {
-            //                labelResult.Text = "未找到符合条件的记录。";
-            //            }
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            MessageBox.Show("发生错误: " + ex.Message);
-            //        }
-            //    }
-            //}
+ 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -143,21 +117,63 @@ namespace deletedata
                     try
                     {
                         // 在此处执行多个 DELETE 命令
-                        string[] tables = { "RY_Att_Report_Day", "RY_Att_Report_InOut", "RY_Att_Report_InOut_History",
-                            "RY_Att_Report_Month", "RY_ChaoShi", "RY_ChaoShi_History",
-                       "RY_ChaoShi_History", "RY_ChaoYuan", "RY_ChaoYuan_History",
-                        "RY_Data_History", "RY_IllegalInside", "RY_IllegalInside_History",
-                        "RY_InOutSite", "RY_InOutSite_History", "RY_InOutArea_History","RY_InOutArea"}; // 替换为你的表名
-
-                        //string query = $"DELETE FROM {table} WHERE YourConditionColumn = @Condition " +
-                                       //    $"AND YourDateColumn BETWEEN @StartDate AND @EndDate"; // 替换为你的条件列和日期列
+                       // string[] tables = { "RY_Att_Report_Day", "RY_Att_Report_InOut", "RY_Att_Report_InOut_History",
+                       //     "RY_Att_Report_Month", "RY_ChaoShi", "RY_ChaoShi_History",
+                       //"RY_ChaoShi_History", "RY_ChaoYuan", "RY_ChaoYuan_History",
+                       // "RY_Data_History", "RY_IllegalInside", "RY_IllegalInside_History",
+                       // "RY_InOutSite", "RY_InOutSite_History", "RY_InOutArea_History","RY_InOutArea"}; // 替换为你的表名
 
 
-                        foreach (string table in tables)
+                      
+
+
+                // 定义字典，键为表名，值为对应的列名列表
+                var tables = new Dictionary<string, string>
+            {
+                { "RY_Att_Report_Day","WorkDate" },
+                { "RY_Att_Report_InOut", "StartTime" },
+                { "RY_Att_Report_InOut_History", "StartTime" },
+                { "RY_Att_Report_Month", "" },
+                { "RY_ChaoShi", "" },
+                { "RY_ChaoShi_History", "" },
+                { "RY_ChaoYuan", ""  },
+                { "RY_ChaoYuan_History", "" },
+                { "RY_Data_History", "" },
+                { "RY_IllegalInside", "" },
+                { "RY_IllegalInside_History", "" },
+                { "RY_InOutSite","" },
+                { "RY_InOutSite_History", "" },
+                { "RY_InOutArea_History","" },
+                { "RY_InOutArea", "" }
+             };
+
+                // 遍历字典并处理每个表名及其列
+                //foreach (var table in tables)
+                //{
+                //    string tableName = table.Key;
+                //    List<string> columns = table.Value;
+
+                //    // 打印表名
+                //    Console.WriteLine($"Table: {tableName}");
+
+                //    // 遍历列并打印
+                //    foreach (var column in columns)
+                //    {
+                //        Console.WriteLine($"    Column: {column}");
+                //        // 可以在这里执行查询操作，例如构建 SQL 查询等
+                //        // string query = $"SELECT {column} FROM {tableName}";
+                //    }
+                //}
+            
+        
+
+
+                        foreach (var table in tables)
 
                         {
-                            string query = $"DELETE FROM {table} WHERE cardId = @Condition "+
-                                $"AND CheckTime BETWEEN @StartDate AND @EndDate"; // 替换为你的条件列
+                            string query = $"DELETE FROM {table.Key} WHERE cardId = @Condition "+
+                                $"AND {table.Value} BETWEEN @StartDate AND @EndDate"; // 替换为你的条件列
+
                             using (SqlCommand command = new SqlCommand(query, connection, transaction))
                             {
                                 command.Parameters.AddWithValue("@Condition", condition);

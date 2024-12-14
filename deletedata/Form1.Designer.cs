@@ -74,14 +74,14 @@
             // 
             // startDateTimePicker
             // 
-            startDateTimePicker.Location = new Point(85, 282);
+            startDateTimePicker.Location = new Point(95, 283);
             startDateTimePicker.Name = "startDateTimePicker";
             startDateTimePicker.Size = new Size(250, 27);
             startDateTimePicker.TabIndex = 4;
             // 
             // endDateTimePicker
             // 
-            endDateTimePicker.Location = new Point(85, 341);
+            endDateTimePicker.Location = new Point(95, 342);
             endDateTimePicker.Name = "endDateTimePicker";
             endDateTimePicker.Size = new Size(250, 27);
             endDateTimePicker.TabIndex = 5;
