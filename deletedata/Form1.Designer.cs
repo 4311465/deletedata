@@ -118,7 +118,7 @@
             Controls.Add(btndelete);
             Controls.Add(labelResult);
             Name = "Form1";
-            Text = "人员定位脏数据清除";
+            Text = "人员定位脏数据清除v1.1";
             ResumeLayout(false);
             PerformLayout();
         }

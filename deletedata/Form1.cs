@@ -25,6 +25,7 @@ namespace deletedata
             //startDateTimePicker.Value = DateTime.Now; // 设置为当前时间
             startDateTimePicker.Value = DateTime.Now.AddDays(-1);
             endDateTimePicker.Value = DateTime.Now;
+            
         }
         //private void btnDelete_Click(object sender, EventArgs e)
         //{
@@ -101,6 +102,7 @@ namespace deletedata
             string condition = texboxID.Text; // 从文本框获取删除条件
             DateTime startDate = startDateTimePicker.Value;
             DateTime endDate = endDateTimePicker.Value;
+            int dayOfYear = endDateTimePicker.Value.Day;
 
             if (string.IsNullOrEmpty(condition))
             {
@@ -133,7 +135,7 @@ namespace deletedata
                 { "RY_Att_Report_Day","WorkDate" },
                 { "RY_Att_Report_InOut", "StartTime" },
                 { "RY_Att_Report_InOut_History", "StartTime" },
-                //{ "RY_Att_Report_Month", "" },
+                { "RY_Att_Report_Month", dayOfYear.ToString()},
                 { "RY_ChaoShi", "StartTime" },
                 { "RY_ChaoShi_History", "StartTime" },
                 { "RY_ChaoYuan", "StartTime"  },
