@@ -133,18 +133,18 @@ namespace deletedata
                 { "RY_Att_Report_Day","WorkDate" },
                 { "RY_Att_Report_InOut", "StartTime" },
                 { "RY_Att_Report_InOut_History", "StartTime" },
-                { "RY_Att_Report_Month", "" },
-                { "RY_ChaoShi", "" },
-                { "RY_ChaoShi_History", "" },
-                { "RY_ChaoYuan", ""  },
-                { "RY_ChaoYuan_History", "" },
-                { "RY_Data_History", "" },
-                { "RY_IllegalInside", "" },
-                { "RY_IllegalInside_History", "" },
-                { "RY_InOutSite","" },
-                { "RY_InOutSite_History", "" },
-                { "RY_InOutArea_History","" },
-                { "RY_InOutArea", "" }
+                //{ "RY_Att_Report_Month", "" },
+                { "RY_ChaoShi", "StartTime" },
+                { "RY_ChaoShi_History", "StartTime" },
+                { "RY_ChaoYuan", "StartTime"  },
+                { "RY_ChaoYuan_History", "StartTime" },
+                { "RY_Data_History", "CheckTime" },
+                { "RY_IllegalInside", "StartTime" },
+                { "RY_IllegalInside_History", "StartTime" },
+                { "RY_InOutSite","StartTime" },
+                { "RY_InOutSite_History", "StartTime" },
+                { "RY_InOutArea_History","StartTime" },
+                { "RY_InOutArea", "StartTime" }
              };
 
                 // 遍历字典并处理每个表名及其列
