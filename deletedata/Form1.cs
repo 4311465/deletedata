@@ -1,4 +1,3 @@
-
 //using Microsoft.Data.SqlClient;  // 移除SQL Server命名空间
 using MySql.Data.MySqlClient;    // 添加MySQL命名空间
 using System.Data;
@@ -102,6 +101,7 @@ namespace deletedata
                     {
                         await InitializeComboBoxAsync(101003);
                     }
+                    await ExecuteQueryLogic();
                 }
                 catch (Exception ex)
                 {
@@ -125,6 +125,10 @@ namespace deletedata
 
             startDateTimePicker.Value = DateTime.Now.AddDays(-1);
             endDateTimePicker.Value = DateTime.Now;
+            
+           
+            //Log.Information("程序已启动...");
+
         }
 
 
@@ -142,7 +146,7 @@ namespace deletedata
             string query = $@"
 SELECT 
   `Value`,
-  MAX(ValueEncrypt) AS ValueEncrypt
+  ValueEncrypt
 FROM `{databaseName}`.`009a16denserecord202509`
 GROUP BY `Value`
 
@@ -150,7 +154,7 @@ UNION
 
 SELECT 
   `Value`,
-  MAX(ValueEncrypt) AS ValueEncrypt
+   ValueEncrypt
 FROM `{databaseName}`.`009a16denserecord202508`
 GROUP BY `Value`
 
@@ -158,7 +162,7 @@ UNION
 
 SELECT 
   `Value`,
-  MAX(ValueEncrypt) AS ValueEncrypt
+   ValueEncrypt
 FROM `{databaseName}`.`009a16denserecord202507`
 GROUP BY `Value`
 
@@ -166,7 +170,7 @@ UNION
 
 SELECT 
   `Value`,
-  MAX(ValueEncrypt) AS ValueEncrypt
+   ValueEncrypt
 FROM `{databaseName}`.`009a16denserecord202506`
 GROUP BY `Value`
 
@@ -174,7 +178,7 @@ UNION
 
 SELECT 
   `Value`,
-  MAX(ValueEncrypt) AS ValueEncrypt
+   ValueEncrypt
 FROM `{databaseName}`.`007a03denserecord202509`
 GROUP BY `Value`
 
@@ -182,7 +186,7 @@ UNION
 
 SELECT 
   `Value`,
-  MAX(ValueEncrypt) AS ValueEncrypt
+   ValueEncrypt
 FROM `{databaseName}`.`007a03denserecord202508`
 GROUP BY `Value`
 
@@ -190,11 +194,40 @@ UNION
 
 SELECT 
   `Value`,
-  MAX(ValueEncrypt) AS ValueEncrypt
+   ValueEncrypt
 FROM `{databaseName}`.`007a03denserecord202507`
 GROUP BY `Value`
 
+UNION 
 
+SELECT 
+  `Value`,
+   ValueEncrypt
+FROM `{databaseName}`.`007a04denserecord202603`
+GROUP BY `Value`
+
+UNION 
+
+SELECT 
+  `Value`,
+   ValueEncrypt
+FROM `{databaseName}`.`089a01denserecord202603`
+GROUP BY `Value`
+
+UNION 
+
+SELECT 
+  `Value`,
+   ValueEncrypt
+FROM `{databaseName}`.`089a13denserecord202603`
+GROUP BY `Value`
+UNION 
+
+SELECT 
+  `Value`,
+   ValueEncrypt
+FROM `{databaseName}`.`055a04denserecord202603`
+GROUP BY `Value`
 
 ORDER BY `Value` ASC;";
 
@@ -279,13 +312,13 @@ ORDER BY `Value` ASC;";
                 return null;
             }
         }
-        /// <summary>
-        /// 查询保存密码映射
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void btnExecuteQuery_Click(object sender, EventArgs e)
+
+
+        private async Task ExecuteQueryLogic()
         {
+            // 原有的 btnExecuteQuery_Click 中的业务逻辑应移动到这里
+            // 例如：查询数据库、更新数据等
+            // ...
             try
             {
                 // 显示加载状态
@@ -348,6 +381,15 @@ ORDER BY `Value` ASC;";
                 btnExecuteQuery.Enabled = true;
                 btnExecuteQuery.Text = "存储密码映射";
             }
+        }
+        /// <summary>
+        /// 查询保存密码映射
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void btnExecuteQuery_Click(object sender, EventArgs e)
+        {
+            ExecuteQueryLogic();
         }
 
         /// <summary>
@@ -701,18 +743,18 @@ ORDER BY `Value` ASC;";
 
         public class AppConfig
         {
-            public AppConfigSection appConfig { get; set; }
+            public AppConfigSection? appConfig { get; set; }
         }
         public class AppConfigSection
         {
-            public List<DbConn> DbConns { get; set; }
+            public List<DbConn>? DbConns { get; set; }
             // 其他配置项可以根据需要添加
         }
         public class DbConn
         {
-            public string Key { get; set; }
-            public string Type { get; set; }
-            public string Conn { get; set; }
+            public string? Key { get; set; }
+            public string? Type { get; set; }
+            public string? Conn { get; set; }
         }
         private async Task<DataTable> ExecuteQueryWithDatabaseCedianRecordAsync(string tablePrefix, string tableEnd, DateTime mintime, DateTime maxtime, string databaseName = "aq_main", double min = 0.5, double max = 100)
         {
@@ -931,6 +973,7 @@ ORDER BY `Value` ASC;";
                 var restoreService = new DataRestoreService(connectionString);
 
                 var restoreSuccess = await restoreService.RestoreDataAsync("aq_main", tableName);
+
 
                 if (restoreSuccess.Item1)
                 {
@@ -1312,7 +1355,7 @@ ORDER BY `Value` ASC;";
             DialogResult result = MessageBox.Show(
                 " 重要注意事项：\n\n" +
                 "1. 此操作将删除重要数据，会备份数据\n" +
-                "2. 无法自动判断是否是标校所产生的数据\n" +
+                "2. 无法自动判断是否为标校所产生的数据\n" +
                 "3. 删除操作必须确认 开始结束时间的选择\n" +
                 "4. 此操作前一定要确认查询出来的数据是否为非标校数据\n\n" +
                 "您是否知晓以上注意事项并确认要继续执行？",
@@ -1617,7 +1660,7 @@ ORDER BY `Value` ASC;";
             DialogResult result = MessageBox.Show(
                " 重要注意事项：\n\n" +
                "1. 此操作将删除重要数据，会备份数据\n" +
-               "2. 无法自动判断是否是标校所产生的数据\n" +
+               "2. 无法自动判断是否为标校所产生的数据\n" +
                "3. 删除操作必须确认 开始结束时间的选择\n" +
                "4. 此操作前一定要确认查询出来的数据是否为非标校数据\n\n" +
                "您是否知晓以上注意事项并确认要继续执行？",
@@ -1744,6 +1787,8 @@ ORDER BY `Value` ASC;";
         }
     }
 }
+
+
 
 
 
