@@ -830,8 +830,8 @@ ORDER BY `Value` ASC;";
             }
 
             // 或者带范围验证
-            if (!minValue.TryParseDouble(out min, 0, 100, "最小值") ||
-                !maxValue.TryParseDouble(out max, min, 100, "最大值"))
+            if (!minValue.TryParseDouble(out min, 0, 1000, "最小值") ||
+                !maxValue.TryParseDouble(out max, min, 1000, "最大值"))
             {
                 return;
             }
