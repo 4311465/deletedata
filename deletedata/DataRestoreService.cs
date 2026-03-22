@@ -27,19 +27,19 @@ namespace deletedata
         /// <summary>
         /// 完整的复原流程
         /// </summary>
-        public async Task<(bool,DataTable?)> RestoreDataAsync(string databaseName, string originalTable)
+        public async Task<(bool, DataTable?)> RestoreDataAsync(string databaseName, string originalTable)
         {
             try
             {
                 // 1. 获取备份表名（您提到的用法）
-                string backupTableName = await _dbHelper.GetBackupTableNameAsync(databaseName,originalTable);
-                var backupTablesName= await _dbHelper.GetBackupTablesNameAsync(databaseName,originalTable);
-        
+                string backupTableName = await _dbHelper.GetBackupTableNameAsync(databaseName, originalTable);
+                var backupTablesName = await _dbHelper.GetBackupTablesNameAsync(databaseName, originalTable);
+
 
                 if (string.IsNullOrEmpty(backupTableName))
                 {
                     Log.Information("找不到备份表");
-                    return (false,null);
+                    return (false, null);
                 }
                 Log.Information($"找到备份表: {backupTableName}");
 
@@ -81,6 +81,17 @@ namespace deletedata
                 // 6. 执行复原
                 int affectedRows = await _dbHelper.ExecuteNonQueryAsync(restoreSql);
                 Log.Information($"成功复原 {affectedRows} 条记录");
+
+                // 7. 删除备份表
+                bool dropSuccess = await _dbHelper.DropBackupTablesAsync(databaseName, originalTable);
+                if (dropSuccess)
+                {
+                    Log.Information($"已删除备份表");
+                }
+                else
+                {
+                    Log.Warning($"删除备份表失败，请手动删除");
+                }
 
                 return (affectedRows > 0, backupTablesName);
             }
@@ -152,6 +163,17 @@ namespace deletedata
                 // 6. 执行复原
                 int affectedRows = await _dbHelper.ExecuteNonQueryAsync(restoreSql);
                 Log.Information($"成功复原 {affectedRows} 条记录");
+
+                // 7. 删除备份表
+                bool dropSuccess = await _dbHelper.DropBackupTablesAsync(databaseName, originalTable);
+                if (dropSuccess)
+                {
+                    Log.Information($"已删除备份表");
+                }
+                else
+                {
+                    Log.Warning($"删除备份表失败，请手动删除");
+                }
 
                 return affectedRows > 0;
             }

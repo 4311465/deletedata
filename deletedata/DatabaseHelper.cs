@@ -112,7 +112,7 @@ namespace deletedata
             }
         }
 
-        
+
         /// <summary>
         /// 执行非查询操作（INSERT/UPDATE/DELETE）
         /// </summary>
@@ -197,7 +197,7 @@ namespace deletedata
         /// <summary>
         /// 获取备份表名（您提到的用法）
         /// </summary>
-        public async Task<string> GetBackupTableNameAsync(string databaseName,string originalTableName)
+        public async Task<string> GetBackupTableNameAsync(string databaseName, string originalTableName)
         {
             // 示例：查询最新的备份表
             string sql = @"
@@ -244,6 +244,49 @@ namespace deletedata
 
             int count = await ExecuteScalarAsync<int>(sql, new { databaseName, tableName });
             return count > 0;
+        }
+
+        /// <summary>
+        /// 检查是否存在备份表
+        /// </summary>
+        public async Task<bool> BackupTableExistsAsync(string databaseName, string originalTableName)
+        {
+            string sql = @"
+            SELECT COUNT(*) 
+            FROM INFORMATION_SCHEMA.TABLES 
+            WHERE TABLE_SCHEMA = @databaseName 
+            AND TABLE_NAME LIKE @pattern";
+
+            string pattern = $"{originalTableName}_backup_%";
+            int count = await ExecuteScalarAsync<int>(sql, new { databaseName, pattern });
+            return count > 0;
+        }
+
+        /// <summary>
+        /// 删除备份表
+        /// </summary>
+        public async Task<bool> DropBackupTablesAsync(string databaseName, string originalTableName)
+        {
+            try
+            {
+                var backupTables = await GetBackupTablesNameAsync(databaseName, originalTableName);
+                if (backupTables == null || backupTables.Rows.Count == 0)
+                {
+                    return true;
+                }
+
+                foreach (System.Data.DataRow row in backupTables.Rows)
+                {
+                    string tableName = row["TABLE_NAME"].ToString();
+                    string dropSql = $"DROP TABLE IF EXISTS `{databaseName}`.`{tableName}`";
+                    await ExecuteNonQueryAsync(dropSql);
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
