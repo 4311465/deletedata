@@ -316,14 +316,13 @@
             label4.AutoSize = true;
             label4.Location = new Point(11, 138);
             label4.Name = "label4";
-            label4.Size = new Size(176, 17);
+            label4.Size = new Size(188, 17);
             label4.TabIndex = 30;
-            label4.Text = "修改最大值建议根据报警值设定";
+            label4.Text = "更新后最大显示的值（手动输入）";
             // 
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "0.1", "0.2", "0.3", "0.4", "0.5", "0.55", "0.6" });
             comboBox1.Location = new Point(204, 135);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(98, 25);

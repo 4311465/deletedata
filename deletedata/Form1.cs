@@ -116,7 +116,8 @@ namespace deletedata
             toolTip1.IsBalloon = true;
             toolTip1.BackColor = Color.LightYellow;
             toolTip1.ForeColor = Color.DarkBlue;
-            comboBox1.SelectedIndex = 4; // 选中第二个选项（索引从0开始）
+            comboBox1.Text = "0";
+            //comboBox1.SelectedIndex = 4; // 选中第二个选项（索引从0开始）
             startDateTimePicker.Format = DateTimePickerFormat.Custom;
             startDateTimePicker.CustomFormat = "yyyy-MM-dd HH:mm:ss"; // 自定义格式  
 
@@ -220,6 +221,13 @@ SELECT
   `Value`,
    ValueEncrypt
 FROM `{databaseName}`.`089a13denserecord202603`
+GROUP BY `Value`
+UNION 
+
+SELECT 
+  `Value`,
+   ValueEncrypt
+FROM `{databaseName}`.`019a16denserecord202603`
 GROUP BY `Value`
 UNION 
 
@@ -413,8 +421,8 @@ ORDER BY `Value` ASC;";
             }
 
             // 或者带范围验证
-            if (!minValue.TryParseDouble(out min, 0, 100, "最小值") ||
-                !maxValue.TryParseDouble(out max, min, 100, "最大值"))
+            if (!minValue.TryParseDouble(out min, 0, 1000, "最小值") ||
+                !maxValue.TryParseDouble(out max, min, 1000, "最大值"))
             {
                 return;
             }
@@ -444,7 +452,9 @@ ORDER BY `Value` ASC;";
                 btndelete_micai.Enabled = false;
                 btndelete_micai.Text = "更新中...";
                 var DataProcessor = new DataProcessor();
-                await DataProcessor.ProcessAndUpdateDataAsync(valueEncryptMapping, connectionString, (cedianhao.SelectedItem as ComboBoxItem).Value, startDateTimePicker.Value.ToString("yyyyMM"), startDateTimePicker.Value, endDateTimePicker.Value, "aq_traces", double.Parse(minValue.Text), double.Parse(maxValue.Text), maxAlarmValue);
+                bool useIntegerValue = checkBox1.Checked;
+                await DataProcessor.ProcessAndUpdateDataAsync(valueEncryptMapping, connectionString, (cedianhao.SelectedItem as ComboBoxItem).Value, startDateTimePicker.Value.ToString("yyyyMM"), startDateTimePicker.Value, endDateTimePicker.Value, "aq_traces", double.Parse(minValue.Text), double.Parse(maxValue.Text), maxAlarmValue, useIntegerValue);
+    
                 Log.Fatal($"更新完成");
             }
             catch (Exception ex)
@@ -478,8 +488,8 @@ ORDER BY `Value` ASC;";
             }
 
             // 或者带范围验证
-            if (!minValue.TryParseDouble(out min, 0, 100, "最小值") ||
-                !maxValue.TryParseDouble(out max, min, 100, "最大值"))
+            if (!minValue.TryParseDouble(out min, 0, 1000, "最小值") ||
+                !maxValue.TryParseDouble(out max, min, 1000, "最大值"))
             {
                 return;
             }
@@ -851,7 +861,10 @@ ORDER BY `Value` ASC;";
                 Restore_record.Enabled = false;
                 delete_redord.Text = "更新中...";
                 var DataProcessor = new DataProcessor();
-                await DataProcessor.ProcessAndUpdateDataRecordAsync(valueEncryptMapping, connectionString, (cedianhao.SelectedItem as ComboBoxItem).Value, startDateTimePicker.Value.ToString("yyyyMMdd"), startDateTimePicker.Value, endDateTimePicker.Value, "aq_main", double.Parse(minValue.Text), double.Parse(maxValue.Text), maxAlarmValue);
+                bool useIntegerValue = checkBox1.Checked;
+                await DataProcessor.ProcessAndUpdateDataRecordAsync(valueEncryptMapping, connectionString, (cedianhao.SelectedItem as ComboBoxItem).Value, startDateTimePicker.Value.ToString("yyyyMMdd"), startDateTimePicker.Value, endDateTimePicker.Value, "aq_main", double.Parse(minValue.Text), double.Parse(maxValue.Text), maxAlarmValue, useIntegerValue);
+
+                
 
             }
             catch (Exception ex)
@@ -886,7 +899,7 @@ ORDER BY `Value` ASC;";
 
             // 或者带范围验证
             if (!minValue.TryParseDouble(out min, 0, 100, "最小值") ||
-                !maxValue.TryParseDouble(out max, min, 100, "最大值"))
+                !maxValue.TryParseDouble(out max, min, 1000, "最大值"))
             {
                 return;
             }
@@ -1403,7 +1416,9 @@ ORDER BY `Value` ASC;";
 
                 delete_redord.Text = "更新中...";
                 var DataProcessor = new DataProcessor();
-                await DataProcessor.ProcessAndUpdateDataMinusAsync(valueEncryptMapping, connectionString, (cedianhao.SelectedItem as ComboBoxItem).Value, startDateTimePicker.Value.ToString("yyyyMMdd"), startDateTimePicker.Value, endDateTimePicker.Value, "aq_main", maxAlarmValue);
+                bool useIntegerValue = checkBox1.Checked;
+                await DataProcessor.ProcessAndUpdateDataMinusAsync(valueEncryptMapping, connectionString, (cedianhao.SelectedItem as ComboBoxItem).Value, startDateTimePicker.Value.ToString("yyyyMMdd"), startDateTimePicker.Value, endDateTimePicker.Value, "aq_main", maxAlarmValue, useIntegerValue);
+                
 
             }
             catch (Exception ex)
@@ -1708,7 +1723,9 @@ ORDER BY `Value` ASC;";
 
                 delete_hours.Text = "更新中...";
                 var DataProcessor = new DataProcessor();
-                await DataProcessor.ProcessAndUpdateDataHoursAsync(valueEncryptMapping, connectionString, (cedianhao.SelectedItem as ComboBoxItem).Value, startDateTimePicker.Value.ToString("yyyy"), startDateTimePicker.Value, endDateTimePicker.Value, "aq_main", maxAlarmValue);
+                bool useIntegerValue = checkBox1.Checked;
+                await DataProcessor.ProcessAndUpdateDataHoursAsync(valueEncryptMapping, connectionString, (cedianhao.SelectedItem as ComboBoxItem).Value, startDateTimePicker.Value.ToString("yyyy"), startDateTimePicker.Value, endDateTimePicker.Value, "aq_main", maxAlarmValue, useIntegerValue);
+   
 
             }
             catch (Exception ex)
