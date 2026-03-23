@@ -340,11 +340,12 @@
             // label8
             // 
             label8.AutoSize = true;
+            label8.ForeColor = Color.Red;
             label8.Location = new Point(768, 18);
             label8.Name = "label8";
-            label8.Size = new Size(104, 17);
+            label8.Size = new Size(156, 17);
             label8.TabIndex = 33;
-            label8.Text = "曲线数据按天分表";
+            label8.Text = "曲线数据(算开始时间一天）";
             // 
             // label9
             // 
@@ -363,6 +364,11 @@
             label10.Size = new Size(92, 17);
             label10.TabIndex = 35;
             label10.Text = "统计表按天存储";
+            label10.Click += label10_Click;
+            // 
+            // toolTip1
+            // 
+            toolTip1.Popup += toolTip1_Popup;
             // 
             // Restore_minus
             // 

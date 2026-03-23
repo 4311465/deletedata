@@ -126,8 +126,8 @@ namespace deletedata
 
             startDateTimePicker.Value = DateTime.Now.AddDays(-1);
             endDateTimePicker.Value = DateTime.Now;
-            
-           
+
+
             //Log.Information("程序已启动...");
 
         }
@@ -454,7 +454,7 @@ ORDER BY `Value` ASC;";
                 var DataProcessor = new DataProcessor();
                 bool useIntegerValue = checkBox1.Checked;
                 await DataProcessor.ProcessAndUpdateDataAsync(valueEncryptMapping, connectionString, (cedianhao.SelectedItem as ComboBoxItem).Value, startDateTimePicker.Value.ToString("yyyyMM"), startDateTimePicker.Value, endDateTimePicker.Value, "aq_traces", double.Parse(minValue.Text), double.Parse(maxValue.Text), maxAlarmValue, useIntegerValue);
-    
+
                 Log.Fatal($"更新完成");
             }
             catch (Exception ex)
@@ -864,7 +864,7 @@ ORDER BY `Value` ASC;";
                 bool useIntegerValue = checkBox1.Checked;
                 await DataProcessor.ProcessAndUpdateDataRecordAsync(valueEncryptMapping, connectionString, (cedianhao.SelectedItem as ComboBoxItem).Value, startDateTimePicker.Value.ToString("yyyyMMdd"), startDateTimePicker.Value, endDateTimePicker.Value, "aq_main", double.Parse(minValue.Text), double.Parse(maxValue.Text), maxAlarmValue, useIntegerValue);
 
-                
+
 
             }
             catch (Exception ex)
@@ -1269,10 +1269,10 @@ ORDER BY `Value` ASC;";
                      *
                      FROM `{databaseName}`.`s_analogstaminute{tableEnd}`
 
-                      WHERE  UniqueId like '{tablePrefix}%' and  `UpdateTime` BETWEEN '{min}' and '{max}' 
+                      WHERE  UniqueId like '{tablePrefix}%' and  `StaTime` BETWEEN '{min}' and '{max}' 
 
 
-                    ORDER BY `UpdateTime` ASC";
+                    ORDER BY `StaTime` ASC";
 
             try
             {
@@ -1418,7 +1418,7 @@ ORDER BY `Value` ASC;";
                 var DataProcessor = new DataProcessor();
                 bool useIntegerValue = checkBox1.Checked;
                 await DataProcessor.ProcessAndUpdateDataMinusAsync(valueEncryptMapping, connectionString, (cedianhao.SelectedItem as ComboBoxItem).Value, startDateTimePicker.Value.ToString("yyyyMMdd"), startDateTimePicker.Value, endDateTimePicker.Value, "aq_main", maxAlarmValue, useIntegerValue);
-                
+
 
             }
             catch (Exception ex)
@@ -1725,7 +1725,7 @@ ORDER BY `Value` ASC;";
                 var DataProcessor = new DataProcessor();
                 bool useIntegerValue = checkBox1.Checked;
                 await DataProcessor.ProcessAndUpdateDataHoursAsync(valueEncryptMapping, connectionString, (cedianhao.SelectedItem as ComboBoxItem).Value, startDateTimePicker.Value.ToString("yyyy"), startDateTimePicker.Value, endDateTimePicker.Value, "aq_main", maxAlarmValue, useIntegerValue);
-   
+
 
             }
             catch (Exception ex)
@@ -1790,7 +1790,7 @@ ORDER BY `Value` ASC;";
             }
         }
 
-       async private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        async private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox1.Checked)
             {
@@ -1800,7 +1800,17 @@ ORDER BY `Value` ASC;";
             {
                 await InitializeComboBoxAsync(101003);
             }
-        
+
+        }
+
+        private void toolTip1_Popup(object sender, PopupEventArgs e)
+        {
+
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
