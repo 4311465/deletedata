@@ -38,7 +38,7 @@ namespace deletedata
             LastResult = new ProcessAndUpdateDataResult();
 
             string originalTableName = $"{tablePrefix}denserecord{tableEnd}";
-            bool hasBackup = await _dbHelper.BackupTableExistsAsync(databaseName, originalTableName);
+            bool hasBackup = await _dbHelper.BackupTableExistsAsync(databaseName, originalTableName, tablePrefix);
             if (hasBackup)
             {
                 LastResult.HasBackupTable = true;
@@ -158,7 +158,7 @@ namespace deletedata
             }
 
             // ✅ 只有有更新记录时才创建备份表
-            string backupTableName = $"{tablePrefix}denserecord{tableEnd}_backup_{DateTime.Now:yyyyMMddHHmmss}";
+            string backupTableName = $"{tablePrefix}denserecord{tableEnd}_backup_{tablePrefix}{DateTime.Now:yyyyMMddHHmmss}";
             updateCommands.Add($"CREATE TABLE IF NOT EXISTS `{databaseName}`.`{backupTableName}` LIKE `{databaseName}`.`{tablePrefix}denserecord{tableEnd}`");
 
             // 添加备份相关列
@@ -317,7 +317,7 @@ namespace deletedata
             LastResult = new ProcessAndUpdateDataResult();
 
             string originalTableName = $"s_analogrunrecord{tableEnd}";
-            bool hasBackup = await _dbHelper.BackupTableExistsAsync(databaseName, originalTableName);
+            bool hasBackup = await _dbHelper.BackupTableExistsAsync(databaseName, originalTableName, tablePrefix);
             if (hasBackup)
             {
                 LastResult.HasBackupTable = true;
@@ -426,7 +426,7 @@ namespace deletedata
             }
 
             // ✅ 只有有更新记录时才创建备份表
-            string backupTableName = $"s_analogrunrecord{tableEnd}_backup_{DateTime.Now:yyyyMMddHHmmss}";
+            string backupTableName = $"s_analogrunrecord{tableEnd}_backup_{tablePrefix}{DateTime.Now:yyyyMMddHHmmss}";
             updateCommands.Add($"CREATE TABLE IF NOT EXISTS `{databaseName}`.`{backupTableName}` LIKE `{databaseName}`.`s_analogrunrecord{tableEnd}`");
 
             // 添加备份相关列
@@ -513,7 +513,7 @@ namespace deletedata
             LastResult = new ProcessAndUpdateDataResult();
 
             string originalTableName = $"s_analogstaminute{tableEnd}";
-            bool hasBackup = await _dbHelper.BackupTableExistsAsync(databaseName, originalTableName);
+            bool hasBackup = await _dbHelper.BackupTableExistsAsync(databaseName, originalTableName, tablePrefix);
             if (hasBackup)
             {
                 LastResult.HasBackupTable = true;
@@ -748,7 +748,7 @@ namespace deletedata
             LastResult = new ProcessAndUpdateDataResult();
 
             string originalTableName = $"s_analogstahour{tableEnd}";
-            bool hasBackup = await _dbHelper.BackupTableExistsAsync(databaseName, originalTableName);
+            bool hasBackup = await _dbHelper.BackupTableExistsAsync(databaseName, originalTableName, tablePrefix);
             if (hasBackup)
             {
                 LastResult.HasBackupTable = true;

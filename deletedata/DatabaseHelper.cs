@@ -196,8 +196,9 @@ namespace deletedata
 
         /// <summary>
         /// 获取备份表名（您提到的用法）
+        /// 最新的的时间
         /// </summary>
-        public async Task<string> GetBackupTableNameAsync(string databaseName, string originalTableName)
+        public async Task<string> GetBackupTableNameAsync(string databaseName, string originalTableName, string tablePrefix)
         {
             // 示例：查询最新的备份表
             string sql = @"
@@ -208,14 +209,15 @@ namespace deletedata
             ORDER BY CREATE_TIME DESC 
             LIMIT 1";
 
-            string pattern = $"{originalTableName}_backup_%";
+            string pattern = $"{originalTableName}_backup_{tablePrefix}{DateTime.Now:yyyyMMdd}%";
 
             return await ExecuteScalarAsync<string>(sql, new { databaseName, pattern });
         }
         /// <summary>
         /// 获取备份表名（您提到的用法）
+        /// 所有表
         /// </summary>
-        public async Task<DataTable> GetBackupTablesNameAsync(string databaseName, string originalTableName)
+        public async Task<DataTable> GetBackupTablesNameAsync(string databaseName, string originalTableName, string tablePrefix)
         {
             // 示例：查询最新的备份表
             string sql = @"
@@ -226,7 +228,7 @@ namespace deletedata
             ORDER BY CREATE_TIME DESC 
              ";
 
-            string pattern = $"{originalTableName}_backup_%";
+            string pattern = $"{originalTableName}_backup_{tablePrefix}{DateTime.Now:yyyyMMdd}%";
 
             return await ExecuteDataTableAsync(sql, new { databaseName, pattern });
         }
@@ -249,7 +251,7 @@ namespace deletedata
         /// <summary>
         /// 检查是否存在备份表
         /// </summary>
-        public async Task<bool> BackupTableExistsAsync(string databaseName, string originalTableName)
+        public async Task<bool> BackupTableExistsAsync(string databaseName, string originalTableName, string tablePrefix)
         {
             string sql = @"
             SELECT COUNT(*) 
@@ -257,7 +259,7 @@ namespace deletedata
             WHERE TABLE_SCHEMA = @databaseName 
             AND TABLE_NAME LIKE @pattern";
 
-            string pattern = $"{originalTableName}_backup_%";
+            string pattern = $"{originalTableName}_backup_{tablePrefix}{DateTime.Now:yyyyMMdd}%";
             int count = await ExecuteScalarAsync<int>(sql, new { databaseName, pattern });
             return count > 0;
         }
@@ -265,11 +267,11 @@ namespace deletedata
         /// <summary>
         /// 删除备份表
         /// </summary>
-        public async Task<bool> DropBackupTablesAsync(string databaseName, string originalTableName)
+        public async Task<bool> DropBackupTablesAsync(string databaseName, string originalTableName, string tablePrefix)
         {
             try
             {
-                var backupTables = await GetBackupTablesNameAsync(databaseName, originalTableName);
+                var backupTables = await GetBackupTablesNameAsync(databaseName, originalTableName,  tablePrefix);
                 if (backupTables == null || backupTables.Rows.Count == 0)
                 {
                     return true;

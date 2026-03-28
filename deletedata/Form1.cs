@@ -246,7 +246,9 @@ ORDER BY `Value` ASC;";
                     await connection.OpenAsync();
 
                     using (MySqlCommand command = new MySqlCommand(query, connection))
+
                     {
+                        command.CommandTimeout = 300;
                         using (MySqlDataAdapter adapter = new MySqlDataAdapter(command))
                         {
                             // 使用Task.Run将同步的Fill方法包装为异步
@@ -287,7 +289,7 @@ ORDER BY `Value` ASC;";
                     `Value`as 实际值,
                     `ValueEncrypt` ,
                     `VStatus`,
-                    `LastUpdateTime` 
+                    `CollectTime` 
                      FROM `{databaseName}`.`{tablePrefix}denserecord{tableEnd}`
 
                     where `Value` BETWEEN {min} and {max}  and  `CollectTime` BETWEEN '{mintime}' and '{maxtime}' and VStatus NOT LIKE '3758%'
@@ -590,7 +592,7 @@ ORDER BY `Value` ASC;";
                 string tableName = $"{selectedTable}denserecord{startDateTimePicker.Value.ToString("yyyyMM")}";
                 var restoreService = new DataRestoreService(connectionString);
 
-                var restoreSuccess = await restoreService.RestoreDataAsync("aq_traces", tableName);
+                var restoreSuccess = await restoreService.RestoreDataAsync("aq_traces", tableName, selectedTable);
 
 
                 if (restoreSuccess.Item1)
@@ -985,7 +987,7 @@ ORDER BY `Value` ASC;";
                 string tableName = $"s_analogrunrecord{startDateTimePicker.Value.ToString("yyyyMMdd")}";
                 var restoreService = new DataRestoreService(connectionString);
 
-                var restoreSuccess = await restoreService.RestoreDataAsync("aq_main", tableName);
+                var restoreSuccess = await restoreService.RestoreDataAsync("aq_main", tableName, selectedTable);
 
 
                 if (restoreSuccess.Item1)
@@ -1048,7 +1050,7 @@ ORDER BY `Value` ASC;";
 
                     where UniqueId like '{tablePrefix}%' and `VStatus` in (613,1125) and  `UpdateTime` BETWEEN '{min}' and '{max}'
 
-                    ORDER BY `UpdateTime` ASC";
+                    ORDER BY `BTime` ASC";
 
             try
             {
@@ -1167,7 +1169,7 @@ ORDER BY `Value` ASC;";
                          WHERE 
                     `UniqueId` LIKE @uniqueId 
                     AND `VStatus` IN (613, 1125) 
-                    AND `UpdateTime` BETWEEN @startTime AND @endTime";
+                    AND `BTime` BETWEEN @startTime AND @endTime";
 
                     using (MySqlCommand backupCommand = new MySqlCommand(backupQuery, connection))
                     {
@@ -1183,7 +1185,7 @@ ORDER BY `Value` ASC;";
                          WHERE 
                          `UniqueId` LIKE @uniqueId 
                          AND `VStatus` IN (613, 1125) 
-                        AND `UpdateTime` BETWEEN @startTime AND @endTime";
+                        AND `BTime` BETWEEN @startTime AND @endTime";
                     using (MySqlCommand command = new MySqlCommand(deleteQuery, connection))
                     {
                         // 所有参数都使用参数化
@@ -1220,7 +1222,7 @@ ORDER BY `Value` ASC;";
                 string tableName = $"s_analogalarmrecord{startDateTimePicker.Value:yyyy}";
                 var restoreService = new DataRestoreService(connectionString);
 
-                bool restoreSuccess = await restoreService.RestoreInsertDataAsync("aq_main", tableName);
+                bool restoreSuccess = await restoreService.RestoreInsertDataAsync("aq_main", tableName, selectedTable);
 
                 if (restoreSuccess)
                 {
@@ -1449,7 +1451,7 @@ ORDER BY `Value` ASC;";
                 string tableName = $"s_analogstaminute{startDateTimePicker.Value:yyyyMMdd}";
                 var restoreService = new DataRestoreService(connectionString);
 
-                var restoreSuccess = await restoreService.RestoreDataAsync("aq_main", tableName);
+                var restoreSuccess = await restoreService.RestoreDataAsync("aq_main", tableName, selectedTable);
 
                 if (restoreSuccess.Item1)
                 {
@@ -1754,7 +1756,7 @@ ORDER BY `Value` ASC;";
                 string tableName = $"s_analogstahour{startDateTimePicker.Value:yyyy}";
                 var restoreService = new DataRestoreService(connectionString);
 
-                var restoreSuccess = await restoreService.RestoreDataAsync("aq_main", tableName);
+                var restoreSuccess = await restoreService.RestoreDataAsync("aq_main", tableName,selectedTable);
 
                 if (restoreSuccess.Item1)
                 {

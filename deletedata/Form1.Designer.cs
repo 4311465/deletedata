@@ -153,7 +153,7 @@
             // 
             // btnExecuteQuery
             // 
-            btnExecuteQuery.Location = new Point(337, 133);
+            btnExecuteQuery.Location = new Point(510, 128);
             btnExecuteQuery.Name = "btnExecuteQuery";
             btnExecuteQuery.Size = new Size(81, 27);
             btnExecuteQuery.TabIndex = 9;
@@ -231,7 +231,7 @@
             // 
             // Restore_btn
             // 
-            Restore_btn.Location = new Point(630, 123);
+            Restore_btn.Location = new Point(630, 111);
             Restore_btn.Name = "Restore_btn";
             Restore_btn.Size = new Size(84, 23);
             Restore_btn.TabIndex = 20;
@@ -313,17 +313,17 @@
             // 
             // label4
             // 
-            label4.AutoSize = true;
-            label4.Location = new Point(11, 138);
+            label4.ForeColor = Color.Red;
+            label4.Location = new Point(16, 121);
             label4.Name = "label4";
-            label4.Size = new Size(188, 17);
+            label4.Size = new Size(349, 34);
             label4.TabIndex = 30;
-            label4.Text = "更新后最大显示的值（手动输入）";
+            label4.Text = "限定修改后的最大值（例如原始瓦斯数值2.0 更新以后除以二.为1.0 这里设置0.5后 原始值除以2后超过0.5统一设置成0.5 ）";
             // 
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(204, 135);
+            comboBox1.Location = new Point(386, 130);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(98, 25);
             comboBox1.TabIndex = 31;
@@ -331,6 +331,7 @@
             // label7
             // 
             label7.AutoSize = true;
+            label7.ForeColor = Color.Red;
             label7.Location = new Point(616, 17);
             label7.Name = "label7";
             label7.Size = new Size(137, 17);
@@ -350,20 +351,22 @@
             // label9
             // 
             label9.AutoSize = true;
+            label9.ForeColor = Color.Red;
             label9.Location = new Point(930, 15);
             label9.Name = "label9";
-            label9.Size = new Size(92, 17);
+            label9.Size = new Size(124, 17);
             label9.TabIndex = 34;
-            label9.Text = "报警是按年存储";
+            label9.Text = "报警是按年存储(按年)";
             // 
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(1085, 15);
+            label10.ForeColor = Color.Red;
+            label10.Location = new Point(1067, 17);
             label10.Name = "label10";
-            label10.Size = new Size(92, 17);
+            label10.Size = new Size(124, 17);
             label10.TabIndex = 35;
-            label10.Text = "统计表按天存储";
+            label10.Text = "统计表按天存储(按天)";
             label10.Click += label10_Click;
             // 
             // toolTip1
@@ -393,11 +396,12 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(1236, 15);
+            label11.ForeColor = Color.Red;
+            label11.Location = new Point(1218, 15);
             label11.Name = "label11";
-            label11.Size = new Size(80, 17);
+            label11.Size = new Size(112, 17);
             label11.TabIndex = 40;
-            label11.Text = "模拟量日报表";
+            label11.Text = "模拟量日报表(按年)";
             // 
             // query_hour
             // 
