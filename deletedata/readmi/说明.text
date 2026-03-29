@@ -1,0 +1,6 @@
+1、密采手数据aq_traces数据库 按测点保存月表001a03denserecord202603
+2、曲线数据 aq_main 为按天保存s_analogrunrecord20250613表不含测点信息 备份表里面含测点信息
+3、报警数据 aq_main 为按年保存s_analogalarmrecord2025表备份数据表含测点信息
+4、统计表5分钟 aq_main 为按天保存s_analogstaminute20260228表不含测点信息  备份表里面含测点信息
+5、统计表1小时 aq_main 为按年保存s_analogstahour2026表不含测点信息  备份表里面含测点信息
+

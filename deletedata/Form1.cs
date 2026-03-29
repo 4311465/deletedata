@@ -44,6 +44,8 @@ namespace deletedata
         private readonly DateTime _hardcodedExpireTime = new DateTime(2026, 10, 1);
         private Dictionary<string, string> valueEncryptMapping = new Dictionary<string, string>();
         private string connectionString = "Server=localhost,1433;Database=UWB_DataTable;User Id=sa;Password=hnma@1972;TrustServerCertificate=True;";
+        private DatabaseHelper? _dbHelper;
+        public ProcessAndUpdateDataResult LastResult { get; private set; } = new ProcessAndUpdateDataResult();
         private void LoadConfiguration()
         {
 
@@ -51,6 +53,7 @@ namespace deletedata
             //    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
             //    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             //    .Build();
+          
             try
             {
                 // 读取配置文件
@@ -82,6 +85,7 @@ namespace deletedata
             {
                 MessageBox.Show($"加载配置失败: {ex.Message}");
             }
+            _dbHelper = new DatabaseHelper(connectionString);
         }
 
 
@@ -1153,6 +1157,15 @@ ORDER BY `Value` ASC;";
             string condition = cedianhao.Text; // 从文本框获取删除条件
             string tableName = $"s_analogalarmrecord{startDateTimePicker.Value:yyyy}";
             string uniqueIdValue = (cedianhao.SelectedItem as ComboBoxItem)?.Value ?? string.Empty;
+            bool hasBackup = await _dbHelper.BackupTableExistsAsync("aq_main", tableName, uniqueIdValue);
+            LastResult = new ProcessAndUpdateDataResult();
+            if (hasBackup)
+            {
+                LastResult.HasBackupTable = true;
+                LastResult.Message = "检测到存在备份表，请先还原数据后再进行更新操作。";
+                Log.Warning(LastResult.Message);
+                return;
+            }
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1160,7 +1173,7 @@ ORDER BY `Value` ASC;";
                     await connection.OpenAsync();
 
                     // 1. 先备份要删除的数据
-                    string backupTableName = $"{tableName}_backup_{DateTime.Now:yyyyMMddHHmmss}";
+                    string backupTableName = $"{tableName}_backup_{uniqueIdValue}{DateTime.Now:yyyyMMddHHmmss}";
 
                     string backupQuery = $@"
                         CREATE TABLE `aq_main`.`{backupTableName}` AS

@@ -640,7 +640,7 @@ namespace deletedata
             }
 
             // ✅ 只有有更新记录时才创建备份表
-            string backupTableName = $"s_analogstaminute{tableEnd}_backup_{DateTime.Now:yyyyMMddHHmmss}";
+            string backupTableName = $"s_analogstaminute{tableEnd}_backup_{tablePrefix}{DateTime.Now:yyyyMMddHHmmss}";
             updateCommands.Add($"CREATE TABLE IF NOT EXISTS `{databaseName}`.`{backupTableName}` LIKE `{databaseName}`.`s_analogstaminute{tableEnd}`");
 
             // 添加备份相关列
@@ -891,7 +891,7 @@ namespace deletedata
             }
 
             // ✅ 只有有更新记录时才创建备份表
-            string backupTableName = $"s_analogstahour{tableEnd}_backup_{DateTime.Now:yyyyMMddHHmmss}";
+            string backupTableName = $"s_analogstahour{tableEnd}_backup_{tablePrefix}{DateTime.Now:yyyyMMddHHmmss}";
             updateCommands.Add($"CREATE TABLE IF NOT EXISTS `{databaseName}`.`{backupTableName}` LIKE `{databaseName}`.`s_analogstahour{tableEnd}`");
 
             // 添加备份相关列
